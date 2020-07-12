@@ -1,0 +1,18 @@
+common:
+    db:
+        name: go
+        url: localhost:3306
+        username: root
+        password: '@Fight7!'
+        pool:                   # 连接池的一些配置
+            maxIdleConns: 10    # 设置最大空闲连接池中的最大连接数
+            maxOpenConns: 100   # 设置数据库连接最大打开数
+            connMaxLifetime: 1  # 设置可重用连接的最长时间
+    redis:
+        maxIdle: 16 
+        maxActive: 0
+        idleTimeout: 300
+        url: 182.92.105.48
+        port: 6379
+        type: tcp
+        auth: holl!!!
