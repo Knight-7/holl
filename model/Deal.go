@@ -8,7 +8,7 @@ package model
 
 //Deal 订单
 type Deal struct {
-	OrderID int64    `gorm:"column:order_id" json:"order_id"`
+	OrderID   int64  `gorm:"column:order_id" json:"order_id"`
 	PublishID string `gorm:"column:publish_id" json:"publish_id"`
 	ReceiveID string `gorm:"column:receive_id" json:"receive_id"`
 }

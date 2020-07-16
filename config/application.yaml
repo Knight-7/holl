@@ -1,7 +1,7 @@
 common:
     db:
         name: go
-        url: localhost:3306
+        url: 182.92.105.48:3306
         username: root
         password: '@Fight7!'
         pool:                   # 连接池的一些配置

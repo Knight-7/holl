@@ -11,4 +11,5 @@ require (
 	github.com/jinzhu/gorm v1.9.14
 	github.com/satori/go.uuid v1.2.0 // indirect
 	github.com/spf13/viper v1.7.0
+	github.com/xlstudio/wxbizdatacrypt v1.0.1
 )

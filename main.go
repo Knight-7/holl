@@ -59,10 +59,14 @@ func startRouter() {
 
 	//设置路由
 	routers.UserRouter(r)
-	//
+	routers.OrderRouter(r)
+	routers.ImageRouter(r)
+	//禁止控制台颜色显示
 	gin.DisableConsoleColor()
+	//限制上传最大尺寸
+	r.MaxMultipartMemory = 8 << 20
 
-	//启动并静听端口7234
+	//启动并静听端口8080
 	srv := &http.Server{
 		Addr:    ":8080",
 		Handler: r,

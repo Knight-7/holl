@@ -36,14 +36,15 @@ func InitOss() error {
 		return err
 	}
 	
-	log.Println("oss init success")
+	log.Println("Oss Init Success")
 	return nil
 }
 
 func readLine() (string, string) {
 	strings := make([]string, 0)
-
+	
 	f, err := os.Open("/root/knight/oss.txt")
+	
 	if err != nil {
 		return "", ""
 	}
@@ -57,7 +58,8 @@ func readLine() (string, string) {
 	return strings[0], strings[1]
 }
 
-func uploadFile(objectName, localFileName string) error {
+//OssUploadFile 上传oss上的图片
+func OssUploadFile(objectName, localFileName string) error {
 	err := bucket.PutObjectFromFile(objectName, localFileName)
 	if err != nil {
 		return err
@@ -66,7 +68,8 @@ func uploadFile(objectName, localFileName string) error {
 	return nil
 }
 
-func downloadFile(objectName, localFileName string) error {
+//OssDownloadFile 下载oss上的图片
+func OssDownloadFile(objectName, localFileName string) error {
 	err := bucket.GetObjectToFile(objectName, localFileName)
 	if err != nil {
 		return err
@@ -75,7 +78,8 @@ func downloadFile(objectName, localFileName string) error {
 	return nil
 }
 
-func deleteFile(objectName string) error {
+//OssDeleteFile 删除oss上的图片
+func OssDeleteFile(objectName string) error {
 	err := bucket.DeleteObject(objectName)
 	if err != nil {
 		return err

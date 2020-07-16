@@ -10,6 +10,7 @@ import (
 	"holl/config"
 	"log"
 	"time"
+	"errors"
 
 	"github.com/garyburd/redigo/redis"
 )
@@ -41,11 +42,27 @@ func InitRedis() {
 			return c, err
 		},
 	}
-	log.Println("redis pool init success")
+	log.Println("Redis Pool Init Success")
+}
+
+//GetSessionInfo 获取session信息
+func GetSessionInfo(sessionID string) (string, string, error) {
+	redisConn := RedisPool.Get()
+	defer redisConn.Close()
+
+	r, err := redis.Strings(redisConn.Do("hmget", sessionID, "openID", "sessionKey"))
+	if err != nil {
+		return "", "", err
+	}
+	if r[0] == "" || r[1] == "" {
+		return "", "", errors.New("sessionkey or openId is null")
+	}
+
+	return r[0], r[1], nil
 }
 
 //CloseRedis 释放redis连接池
 func CloseRedis() {
-	log.Println("close redis pool")
+	log.Println("Close redis pool")
 	RedisPool.Close()
 }

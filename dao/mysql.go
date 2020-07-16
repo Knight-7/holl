@@ -25,7 +25,7 @@ func InitMySQL() error {
 	var err error
 	
 	mysqlConfig := config.GetMysqlConfig()
-	userAndPassword := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8mb4&parseTime=True&loc=Local",
+	userAndPassword := fmt.Sprintf("%s:%s@tcp(%s)/%s?charset=utf8mb4&loc=Local",
 		mysqlConfig.UserName, mysqlConfig.Password, mysqlConfig.URL, mysqlConfig.Name)
 	
 	//连接数据库
@@ -43,7 +43,7 @@ func InitMySQL() error {
 		return err
 	}
 
-	log.Println("mysql init success")
+	log.Println("MySQL Init Success")
 	return nil
 }
 
@@ -84,6 +84,6 @@ func Migrate() {
 
 //CloseMysql 关闭数据库连接
 func CloseMysql() {
-	log.Println("close mysql connection")
+	log.Println("Close mysql connection")
 	DB.Close()
 }
