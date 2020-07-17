@@ -37,7 +37,6 @@ func Authorize() gin.HandlerFunc {
 			return
 		}
 
-		log.Println(sessionID, openID, sessionKey)
 		// 将openID和sessionKey保存到context的key中
 		c.Set("open-id", openID)
 		c.Set("session-key", sessionKey)

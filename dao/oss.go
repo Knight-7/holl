@@ -10,6 +10,7 @@ import (
 	"bufio"
 	"log"
 	"os"
+	"holl/config"
 
 	"github.com/aliyun/aliyun-oss-go-sdk/oss"
 )
@@ -43,7 +44,7 @@ func InitOss() error {
 func readLine() (string, string) {
 	strings := make([]string, 0)
 	
-	f, err := os.Open("/root/knight/oss.txt")
+	f, err := os.Open(config.GetOssConfigFilePath())
 	
 	if err != nil {
 		return "", ""

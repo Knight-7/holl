@@ -8,9 +8,12 @@ package model
 
 //Deal 订单
 type Deal struct {
-	OrderID   int64  `gorm:"column:order_id" json:"order_id"`
-	PublishID string `gorm:"column:publish_id" json:"publish_id"`
-	ReceiveID string `gorm:"column:receive_id" json:"receive_id"`
+	OrderID     *int64  `gorm:"primarykey;column:order_id" json:"order_id"`
+	Order       *Order
+	PUblishUser *User  `grom:"foreignkey:PublishID" json:"publish_user"`
+	PublishID   *string `gorm:"column:publish_id" json:"publish_id"`
+	ReceiveUser *User  `gorm:"foreignkey:ReceiveID" json:"receive_user"`
+	ReceiveID   *string `gorm:"column:receive_id" json:"receive_id"`
 }
 
 //TableName 自定义表名

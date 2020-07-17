@@ -79,3 +79,8 @@ func GetRedisPoolConfig() *RedisConfig {
 	}
 	return redisConfig
 }
+
+//GetOssConfigFilePath 或取oss的配置文件路径
+func GetOssConfigFilePath() string {
+	return viper.GetString("common.oss.filePath")
+}

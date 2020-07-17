@@ -61,6 +61,84 @@ func GetSessionInfo(sessionID string) (string, string, error) {
 	return r[0], r[1], nil
 }
 
+//GetMaxOrderID 获取当前的最大订单号
+func GetMaxOrderID() (int64, error) {
+	conn := RedisPool.Get()
+	defer conn.Close()
+
+	r, err := redis.Int64(conn.Do("get", "orderID"))
+	if err != nil {
+		return r, err
+	}
+
+	return r, nil
+}
+
+//SetMaxOrderID 将当前的最大订单号+1
+func SetMaxOrderID(orderID int64) error {
+	conn := RedisPool.Get()
+	defer conn.Close()
+
+	_, err := redis.Int64(conn.Do("set", "orderID", orderID + 1))
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+//GetMaxUserID 获取当前最大用户的ID
+func GetMaxUserID() (int64, error) {
+	conn := RedisPool.Get()
+	defer conn.Close()
+
+	r, err := redis.Int64(conn.Do("get", "maxUser"))
+	if err != nil {
+		return r, err
+	}
+
+	return r, nil
+}
+
+//SetMaxUserID 将当前最大用户的ID+1
+func SetMaxUserID(maxUser int64) error {
+	conn := RedisPool.Get()
+	defer conn.Close()
+
+	_, err := redis.Int64(conn.Do("set", "maxUser", maxUser + 1))
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+//GetMaxImageID 获取最大的图片的ID
+func GetMaxImageNum() (int64, error) {
+	conn := RedisPool.Get()
+	defer conn.Close()
+
+	r, err := redis.Int64(conn.Do("get", "imageNum"))
+	if err != nil {
+		return r, err
+	}
+
+	return r, nil
+}
+
+//SetMaxImageNum 将最大的图片的ID+1
+func SetMaxImageNum(imageNum int64) error {
+	conn := RedisPool.Get()
+	defer conn.Close()
+
+	_, err := redis.Int64(conn.Do("set", "imageNum", imageNum + 1))
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
 //CloseRedis 释放redis连接池
 func CloseRedis() {
 	log.Println("Close redis pool")

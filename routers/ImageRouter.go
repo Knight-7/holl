@@ -10,7 +10,9 @@ import (
 	"fmt"
 	"holl/dao"
 	"holl/model"
+	"log"
 	"net/http"
+	"os"
 	"strconv"
 
 	"github.com/gin-gonic/gin"
@@ -30,20 +32,38 @@ func uploadImage(group *gin.RouterGroup) {
 		}
 		
 		orderID, _ := strconv.ParseInt(c.PostForm("orderId"), 10, 64)
-		var count int
-		dao.DB.Table("images").Count(&count)
+		imageNum, err := dao.GetMaxImageNum()
+		if err != nil {
+			c.JSON(http.StatusOK, Response{
+				LoginStatus: true,
+				Data: nil,
+				ErrorMessage: err.Error(),
+			})
+		}
+
+		imageName := strconv.FormatInt(imageNum, 10) + ".jpg"
+		c.SaveUploadedFile(file, "tmp/" + file.Filename)
+		if err = dao.OssUploadFile("holl/" + imageName, "tmp/" + file.Filename); err != nil {
+			c.JSON(http.StatusOK, Response{
+				LoginStatus: true,
+				Data: nil,
+				ErrorMessage: err.Error(),
+			})
+		}
+
 		image := model.Image{
-			OrderID: orderID,
-			ImageName: strconv.Itoa(count) + ".jpg",
+			OrderID: &orderID,
+			ImageName: &imageName,
+		}
+
+		dao.DB.Create(&image)
+		dao.SetMaxImageNum(imageNum)
+
+		if err = os.Remove("tmp/" + file.Filename); err != nil {
+			log.Println("Delete tmprary file failed, filename:", imageName)
 		}
 		
 		fmt.Println(image, file.Filename)
-	})
-}
-
-func downloadImage(group *gin.RouterGroup) {
-	group.GET("/download", Authorize(), func(c *gin.Context) {
-
 	})
 }
 
@@ -52,6 +72,5 @@ func ImageRouter(r *gin.Engine) {
 	group := r.Group("/image")
 	{
 		uploadImage(group)
-		downloadImage(group)
 	}
 }

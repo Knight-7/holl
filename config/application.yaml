@@ -16,3 +16,5 @@ common:
         port: 6379
         type: tcp
         auth: holl!!!
+    oss:
+        filePath: C:\Users\ouyuj\Documents\oss.txt

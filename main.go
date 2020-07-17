@@ -11,6 +11,7 @@ import (
 	"holl/config"
 	"holl/dao"
 	"holl/routers"
+	"holl/util"
 	"log"
 	"net/http"
 	"os"
@@ -79,8 +80,7 @@ func startRouter() {
 		}
 	}()
 
-	// Wait for interrupt signal to gracefully shutdown the server with
-	// a timeout of 5 seconds.
+	// 监听中断信号去优雅的关闭服务
 	quit := make(chan os.Signal)
 	signal.Notify(quit, os.Interrupt)
 	<-quit
@@ -95,10 +95,17 @@ func startRouter() {
 }
 
 func main() {
+	if err := util.MakeTmpDir(); err != nil {
+		log.Println(err)
+		return
+	}
+
 	initMysqlAndRedis()
 	defer func() {
 		dao.CloseMysql()
 		dao.CloseRedis()
+
+		util.RemoveTmpDir()
 	}()
 
 	startRouter()
