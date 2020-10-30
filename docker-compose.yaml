@@ -1,0 +1,17 @@
+version: "3"
+
+services: 
+    holl_app:
+        build: .
+        command: ./app
+        ports: 
+            - "3434:3434"
+        depends_on:
+            - mysql
+            - redis
+
+    mysql:
+        image: "mysql:8.0.22"
+
+    redis:
+        
