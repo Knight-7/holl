@@ -1,4 +1,4 @@
-FROM golang:1.15.3:alpine as builder
+FROM golang:1.15.3-alpine as builder
 
 WORKDIR /holl
 
@@ -8,14 +8,24 @@ RUN apk --no-cache add git
 
 ENV GO111MODULE=on \
     CGO_ENABLE=0 \
-    GOOS=linux
+    GOOS=linux \
+    GOPROXY=https://mirrors.aliyun.com/goproxy/
 
 RUN go build -o app .
 
 FROM alpine:latest
 
-RUN apk --no-cache add ca-certificate
+RUN apk add --no-cache ca-certificates
+
+WORKDIR /config
+
+COPY config/application.yaml /config
+COPY config/data.zip /config
+
+WORKDIR /
 
 COPY --from=builder /holl/app .
 
-CMD [ "./app" ]
+RUN chmod +x wait-for
+
+CMD ["./app"]

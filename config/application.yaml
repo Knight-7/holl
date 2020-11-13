@@ -1,9 +1,9 @@
 common:
     db:
         name: go
-        url: 182.92.105.48:3306
+        url: holl_mysql:3306
         username: root
-        password: '@Fight7!'
+        password: '563070147dotA!'
         pool:                   # 连接池的一些配置
             maxIdleConns: 10    # 设置最大空闲连接池中的最大连接数
             maxOpenConns: 100   # 设置数据库连接最大打开数
@@ -12,7 +12,7 @@ common:
         maxIdle: 16 
         maxActive: 0
         idleTimeout: 300
-        url: 182.92.105.48
+        url: holl_redis
         port: 6379
         type: tcp
         auth: holl!!!

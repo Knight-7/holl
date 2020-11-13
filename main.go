@@ -62,6 +62,7 @@ func startRouter() {
 	routers.UserRouter(r)
 	routers.OrderRouter(r)
 	routers.ImageRouter(r)
+	routers.HelloRouter(r)
 	//禁止控制台颜色显示
 	gin.DisableConsoleColor()
 	//限制上传最大尺寸

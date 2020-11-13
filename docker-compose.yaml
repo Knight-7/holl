@@ -2,16 +2,40 @@ version: "3"
 
 services: 
     holl_app:
-        build: .
-        command: ./app
+        image: holl:v1
+        container_name: holl
+        networks:
+            - holl
+        volumes:
+            - "./wait-for:/wait-for"
         ports: 
-            - "3434:3434"
+            - 3434:8080
         depends_on:
             - mysql
             - redis
+        # command: sh -c './wait-for mysql:3306 -- ./app'
+        command: sh ./wait-for holl_mysql:3306 -- ./app
 
     mysql:
-        image: "mysql:8.0.22"
+        image: mysql:8.0.22
+        container_name: holl_mysql
+        networks:
+            - holl
+        environment: 
+            - MYSQL_ROOT_PASSWORD=563070147dotA!
+        volumes:
+            - ./assets:/docker-entrypoint-initdb.d
+            - /usr/local/docker-data/mysql:/var/lib/mysql
 
     redis:
-        
+        image: redis:6.0.8
+        container_name: holl_redis
+        networks:
+            - holl
+        ports:
+            - 6379:6379
+        volumes:
+            - /usr/local/docker-data/redis:/data
+
+networks:
+    holl:
